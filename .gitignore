@@ -1,0 +1,9 @@
+# O zip de 1,7 GB NAO vai para o GitHub (limite de 100 MB por arquivo).
+# Ele sobe como arquivo de uma Release (limite de 2 GiB por arquivo).
+cmsys.zip
+
+# Arquivos gerados pelo PyInstaller / Python
+build/
+dist/
+*.spec
+__pycache__/
