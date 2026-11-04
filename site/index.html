@@ -1,0 +1,396 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Hub CMSYS · Guia e download</title>
+  <meta name="description" content="Baixe o Hub CMSYS e aprenda, passo a passo, a preparar um PC novo ou migrar um servidor do CMSYS.">
+  <meta name="robots" content="noindex, nofollow">
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='8' fill='%230a7cc4'/%3E%3Cpath d='M9 10h4v12H9zM19 10h4v12h-4zM13 14h6v4h-6z' fill='white'/%3E%3C/svg%3E">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="assets/style.css">
+  <script src="assets/config.js"></script>
+</head>
+<body>
+
+<header class="topo">
+  <div class="topo-in">
+    <a class="marca" href="#inicio" aria-label="Início">
+      <span class="marca-icone" aria-hidden="true">
+        <svg viewBox="0 0 32 32"><rect width="32" height="32" rx="8"/><path d="M9 10h4v12H9zM19 10h4v12h-4zM13 14h6v4h-6z"/></svg>
+      </span>
+      <span>Hub <strong>CMSYS</strong></span>
+    </a>
+    <nav class="topo-nav" aria-label="Seções">
+      <a href="#caminhos">Caminhos</a>
+      <a href="#etapas">Etapas</a>
+      <a href="#migracao">Migração</a>
+      <a href="#problemas">Problemas</a>
+    </nav>
+    <div class="topo-acoes">
+      <button class="tema" id="tema" type="button" aria-label="Alternar tema claro/escuro">
+        <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 3a9 9 0 1 0 9 9 7 7 0 0 1-9-9z"/></svg>
+      </button>
+      <a class="btn btn-pequeno js-download" href="#">Baixar</a>
+    </div>
+  </div>
+</header>
+
+<main>
+
+<!-- ============================== HERO ============================== -->
+<section class="hero" id="inicio">
+  <div class="hero-in">
+    <div class="hero-texto">
+      <p class="selo"><span class="ponto"></span> Versão <span class="js-versao">1.0</span> · <span class="js-data"></span></p>
+      <h1>Prepare um PC para o CMSYS<br><span class="destaque">com alguns cliques.</span></h1>
+      <p class="lead">O Hub CMSYS automatiza a preparação de cliente novo e a troca de servidor: rede, firewall, estrutura, SQL Server 2025, restauração do banco, instalação do CMSYS e migração dos arquivos.</p>
+      <div class="hero-acoes">
+        <a class="btn btn-grande js-download" href="#">
+          <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 3v12m0 0-5-5m5 5 5-5M4 19h16"/></svg>
+          Baixar HubCMSYS.exe
+        </a>
+        <a class="btn btn-fantasma" href="#comecar">Como usar</a>
+      </div>
+      <p class="nota">Windows 10/11 · roda como administrador · não precisa instalar nada</p>
+    </div>
+
+    <div class="hero-janela" aria-hidden="true">
+      <div class="janela">
+        <div class="janela-barra"><span></span><span></span><span></span><em>Hub CMSYS - Preparar PC</em></div>
+        <div class="janela-corpo">
+          <div class="jb ok">1 Rede como Privada</div>
+          <div class="jb ok">2 Firewall + portas</div>
+          <div class="jb ok">3 Baixar estrutura CMSYS</div>
+          <div class="jb ok">4 Instalar SQL Server + SSMS</div>
+          <div class="jb rodando">5 Restaurar banco do CMSYS</div>
+          <div class="jb">6 Instalar CMSYS na estação</div>
+          <div class="jb">7 Windows Update</div>
+          <div class="jb alt">8 Migrar arquivos</div>
+          <div class="jb tudo">EXECUTAR TUDO (1 a 7)</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============================ COMECAR ============================= -->
+<section class="secao" id="comecar">
+  <div class="secao-in">
+    <p class="sobre">Antes de tudo</p>
+    <h2>Primeiros passos</h2>
+    <div class="grade-3">
+      <article class="cartao">
+        <span class="num">1</span>
+        <h3>Baixe e copie</h3>
+        <p>Baixe o <code>HubCMSYS.exe</code> nesta página e coloque no PC do cliente (área de trabalho, pen drive ou pasta de rede). É um arquivo só.</p>
+      </article>
+      <article class="cartao">
+        <span class="num">2</span>
+        <h3>Abra como administrador</h3>
+        <p>Dê dois cliques e clique em <strong>Sim</strong> na janela do Windows. Se aparecer "o Windows protegeu o computador", clique em <em>Mais informações</em> → <em>Executar assim mesmo</em>.</p>
+      </article>
+      <article class="cartao">
+        <span class="num">3</span>
+        <h3>Siga a ordem dos botões</h3>
+        <p>Clique de 1 a 7, ou use <strong>Executar tudo</strong>. Cada botão abre uma janela preta mostrando o que está acontecendo. Pode rodar de novo: nada é duplicado.</p>
+      </article>
+    </div>
+    <div class="aviso">
+      <strong>Tenha em mãos:</strong> internet no PC, o código da empresa do cliente (para baixar o backup) e, em troca de servidor, o nome do servidor antigo na rede.
+    </div>
+  </div>
+</section>
+
+<!-- ============================ CAMINHOS ============================ -->
+<section class="secao secao-alt" id="caminhos">
+  <div class="secao-in">
+    <p class="sobre">Escolha o seu cenário</p>
+    <h2>Dois caminhos</h2>
+    <div class="caminhos">
+      <article class="caminho">
+        <h3>Cliente novo <span class="tag">instalação do zero</span></h3>
+        <p>PC limpo, cliente começando no CMSYS ou servidor novo sem dados para trazer.</p>
+        <ol class="trilha">
+          <li><b>1–3</b> Rede, firewall e estrutura</li>
+          <li><b>4</b> SQL Server 2025 + SSMS</li>
+          <li><b>5</b> Restaurar o banco (portal)</li>
+          <li><b>6</b> Instalar o CMSYS</li>
+          <li><b>7</b> Windows Update</li>
+        </ol>
+        <p class="dica">Atalho: <strong>Executar tudo</strong> faz isso em sequência.</p>
+      </article>
+      <article class="caminho caminho-b">
+        <h3>Troca de servidor <span class="tag">migração</span></h3>
+        <p>O cliente já tem um servidor e vai para uma máquina nova na mesma rede.</p>
+        <ol class="trilha">
+          <li><b>1–7</b> Prepare a máquina nova como no cliente novo</li>
+          <li><b>8</b> Migrar arquivos do servidor antigo</li>
+          <li><b>✓</b> Conferir XML, notas, fotos e logo no CMSYS</li>
+        </ol>
+        <p class="dica">O botão 8 não apaga nada no servidor antigo nem no novo.</p>
+      </article>
+    </div>
+  </div>
+</section>
+
+<!-- ============================= ETAPAS ============================= -->
+<section class="secao" id="etapas">
+  <div class="secao-in">
+    <p class="sobre">Passo a passo</p>
+    <h2>O que cada botão faz</h2>
+    <p class="intro">Marque as etapas conforme for concluindo. O progresso fica salvo neste navegador.</p>
+
+    <div class="progresso" aria-live="polite">
+      <div class="progresso-barra"><span id="barra"></span></div>
+      <span id="progresso-txt">0 de 8 etapas</span>
+      <button class="link" id="zerar" type="button">Zerar</button>
+    </div>
+
+    <div class="etapas" id="lista-etapas">
+
+      <details class="etapa" data-id="1">
+        <summary>
+          <label class="check" onclick="event.stopPropagation()"><input type="checkbox"><span></span></label>
+          <span class="etapa-num">1</span>
+          <span class="etapa-tit">Rede como Privada <small>segundos</small></span>
+          <span class="seta" aria-hidden="true"></span>
+        </summary>
+        <div class="etapa-corpo">
+          <p>Troca as conexões de rede <em>Públicas</em> para <em>Privadas</em>, para que as estações enxerguem o servidor. Redes de domínio não são alteradas.</p>
+          <p class="confira"><b>Confira:</b> em Configurações → Rede, a conexão aparece como "Privada".</p>
+        </div>
+      </details>
+
+      <details class="etapa" data-id="2">
+        <summary>
+          <label class="check" onclick="event.stopPropagation()"><input type="checkbox"><span></span></label>
+          <span class="etapa-num">2</span>
+          <span class="etapa-tit">Firewall + portas <small>segundos</small></span>
+          <span class="seta" aria-hidden="true"></span>
+        </summary>
+        <div class="etapa-corpo">
+          <p>Desativa o Firewall do Windows e cria as regras de entrada e saída para <strong>TS (porta 3389)</strong> e <strong>SQL (porta 1433)</strong>, sem duplicar se já existirem.</p>
+        </div>
+      </details>
+
+      <details class="etapa" data-id="3">
+        <summary>
+          <label class="check" onclick="event.stopPropagation()"><input type="checkbox"><span></span></label>
+          <span class="etapa-num">3</span>
+          <span class="etapa-tit">Baixar estrutura CMSYS <small>10–40 min</small></span>
+          <span class="seta" aria-hidden="true"></span>
+        </summary>
+        <div class="etapa-corpo">
+          <p>Baixa o <code>cmsys.zip</code> (~1,7 GB), confere se veio inteiro, extrai e copia para <code>C:\cmsys</code> ou para o disco escolhido. Se a internet cair, continua de onde parou.</p>
+          <p class="dica">Sem internet boa? Coloque o <code>cmsys.zip</code> na mesma pasta do <code>HubCMSYS.exe</code>: o botão usa o arquivo local e não baixa nada.</p>
+        </div>
+      </details>
+
+      <details class="etapa" data-id="4">
+        <summary>
+          <label class="check" onclick="event.stopPropagation()"><input type="checkbox"><span></span></label>
+          <span class="etapa-num">4</span>
+          <span class="etapa-tit">Instalar SQL Server 2025 + SSMS <small>15–30 min</small></span>
+          <span class="seta" aria-hidden="true"></span>
+        </summary>
+        <div class="etapa-corpo">
+          <p>Instala o <strong>SQL Server 2025 Express</strong> (instância MSSQLSERVER, modo misto, usuário <code>sa</code>) e o <strong>SSMS</strong>, com as mesmas escolhas do manual. Precisa de internet.</p>
+          <p>No final, o Hub pergunta: <strong>"Quer já restaurar o banco do cliente agora?"</strong></p>
+          <ul>
+            <li><b>Sim</b> → segue direto para a etapa 5.</li>
+            <li><b>Não</b> → fica só o SQL instalado. Use o botão 5 depois.</li>
+          </ul>
+          <p class="confira"><b>Prova do limite de 50 GB:</b> no SSMS, rode a consulta abaixo. Deve mostrar versão <code>17</code> e <code>Express Edition</code>.</p>
+          <div class="codigo"><pre><code>SELECT SERVERPROPERTY('ProductMajorVersion') AS Versao,
+       SERVERPROPERTY('Edition') AS Edicao;</code></pre><button class="copiar" type="button">Copiar</button></div>
+        </div>
+      </details>
+
+      <details class="etapa" data-id="5">
+        <summary>
+          <label class="check" onclick="event.stopPropagation()"><input type="checkbox"><span></span></label>
+          <span class="etapa-num">5</span>
+          <span class="etapa-tit">Restaurar banco do CMSYS <small>5–20 min</small></span>
+          <span class="seta" aria-hidden="true"></span>
+        </summary>
+        <div class="etapa-corpo">
+          <p>O Hub pergunta se você já baixou o <code>.bak</code> do cliente.</p>
+          <div class="fluxo">
+            <div class="fluxo-col">
+              <h4>Já baixei</h4>
+              <ol>
+                <li>O Hub sugere o .bak mais recente da pasta Downloads.</li>
+                <li>Confirme ou escolha outro arquivo.</li>
+              </ol>
+            </div>
+            <div class="fluxo-col">
+              <h4>Ainda não</h4>
+              <ol>
+                <li>Digite o <strong>código da empresa</strong>: usuário e senha aparecem prontos, com botões Copiar.</li>
+                <li><strong>Abrir portal</strong> → faça o login.</li>
+                <li><strong>Abrir página do backup</strong> → baixe o backup.</li>
+                <li>Quando o download termina, o Hub pega o arquivo sozinho.</li>
+              </ol>
+            </div>
+          </div>
+          <p>Depois ele move o .bak para <code>cmsys\Suporte\SQLSERVER2025</code> e restaura como <code>cmsys</code> (filial 1) ou <code>cmsys_f2</code>, <code>cmsys_f3</code>… pela filial no nome do arquivo. Também liga TCP/IP e Pipes nomeados e reinicia o serviço.</p>
+          <p class="dica">Com a extensão <strong>Auto Login Azure</strong> no navegador, o login se preenche sozinho ao digitar a empresa.</p>
+          <p class="confira"><b>Segurança:</b> se o banco já existir, ele não é sobrescrito.</p>
+        </div>
+      </details>
+
+      <details class="etapa" data-id="6">
+        <summary>
+          <label class="check" onclick="event.stopPropagation()"><input type="checkbox"><span></span></label>
+          <span class="etapa-num">6</span>
+          <span class="etapa-tit">Instalar CMSYS na estação <small>5–10 min</small></span>
+          <span class="seta" aria-hidden="true"></span>
+        </summary>
+        <div class="etapa-corpo">
+          <p>Instala tudo em silêncio, nesta ordem, usando os instaladores de <code>cmsys\Suporte</code>:</p>
+          <ol class="lista-num">
+            <li><b>ReportViewer 2010</b>: pula se já estiver instalado.</li>
+            <li><b>Crystal Reports Runtime 2008</b>: pula se já estiver instalado.</li>
+            <li><b>CMSYS Relatórios</b>: remove todas as versões antigas e instala a nova.</li>
+            <li><b>CMSYS Boleto</b>: cria <code>C:\CmsysBoleto</code> e instala nessa pasta.</li>
+            <li><b>Componentes do CMSYS</b>: copia só o que falta ou está mais antigo e registra. Nunca troca arquivos do próprio Windows.</li>
+          </ol>
+        </div>
+      </details>
+
+      <details class="etapa" data-id="7">
+        <summary>
+          <label class="check" onclick="event.stopPropagation()"><input type="checkbox"><span></span></label>
+          <span class="etapa-num">7</span>
+          <span class="etapa-tit">Windows Update <small>varia</small></span>
+          <span class="seta" aria-hidden="true"></span>
+        </summary>
+        <div class="etapa-corpo">
+          <p>Procura, baixa e instala as atualizações do Windows. Fica por último porque pode pedir reinício (e o instalador do SQL recusa instalar com reinício pendente).</p>
+          <p class="dica">Se pedir reinício: reinicie e rode o botão de novo até não sobrar nada. Reiniciar derruba o acesso remoto por alguns minutos.</p>
+        </div>
+      </details>
+
+      <details class="etapa etapa-alt" data-id="8">
+        <summary>
+          <label class="check" onclick="event.stopPropagation()"><input type="checkbox"><span></span></label>
+          <span class="etapa-num">8</span>
+          <span class="etapa-tit">Migrar arquivos <small>só troca de servidor</small></span>
+          <span class="seta" aria-hidden="true"></span>
+        </summary>
+        <div class="etapa-corpo">
+          <p>Veja a seção <a href="#migracao">Migração de servidor</a> logo abaixo.</p>
+        </div>
+      </details>
+
+    </div>
+
+    <div class="tudo">
+      <div>
+        <h3>Executar tudo</h3>
+        <p>Roda de 1 a 7 em sequência e mostra um resumo no final. Entre o SQL e o restore ele faz as perguntas do banco, então fique por perto nessa hora.</p>
+      </div>
+      <span class="pilula">1 → 2 → 3 → 4 → 5 → 6 → 7</span>
+    </div>
+  </div>
+</section>
+
+<!-- ============================ MIGRACAO ============================ -->
+<section class="secao secao-alt" id="migracao">
+  <div class="secao-in">
+    <p class="sobre">Botão 8</p>
+    <h2>Migração de servidor</h2>
+    <p class="intro">Com a máquina nova pronta, o botão 8 traz os documentos locais do servidor antigo pela rede, usando robocopy.</p>
+
+    <div class="grade-2">
+      <div>
+        <h3 class="h3-peq">1. Preencha a janela</h3>
+        <dl class="campos">
+          <dt>Origem</dt><dd>Pasta cmsys do servidor antigo, pelo caminho de rede:<br><code>\\SERVIDOR\c$\cmsys</code></dd>
+          <dt>Destino</dt><dd>Pasta cmsys desta máquina (já vem preenchida).</dd>
+          <dt>Usuário/senha</dt><dd>Só se o servidor antigo pedir login.</dd>
+        </dl>
+        <p class="aviso aviso-peq">Use o caminho <code>\\SERVIDOR\...</code>, não a letra de unidade (Z:). O Hub roda como administrador e não enxerga unidades mapeadas.</p>
+      </div>
+      <div>
+        <h3 class="h3-peq">2. O que é copiado</h3>
+        <ul class="pastas">
+          <li><span class="ic">XML</span><div><b>Cupons</b><code>cmsys\Aplicativo\CFe\RETORNO\XML</code></div></li>
+          <li><span class="ic">NF</span><div><b>Notas: XML e PDF</b><code>cmsys\NFe\&lt;CNPJ&gt;\XML</code> e <code>\PDF</code> (todos os CNPJs)</div></li>
+          <li><span class="ic">IMG</span><div><b>Fotos</b><code>cmsys\Fotos</code> (se houver)</div></li>
+          <li><span class="ic">LG</span><div><b>Logos</b><code>Aplicativo\Logo.jpg/.png</code> e <code>Logo.gif</code>. Sem eles, usa os nativos de <code>Aplicativo\Logo</code>.</div></li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="grade-3 regras">
+      <div class="regra"><b>Não apaga nada</b><span>Nem no servidor antigo, nem no novo.</span></div>
+      <div class="regra"><b>Pode rodar de novo</b><span>Na segunda vez, copia só o que falta ou mudou.</span></div>
+      <div class="regra"><b>Simular primeiro</b><span>Marque "Só simular" para ver o que seria copiado.</span></div>
+    </div>
+  </div>
+</section>
+
+<!-- ============================ PROBLEMAS =========================== -->
+<section class="secao" id="problemas">
+  <div class="secao-in">
+    <p class="sobre">Deu erro?</p>
+    <h2>Problemas comuns</h2>
+    <input class="busca" id="busca" type="search" placeholder="Filtrar problemas (ex.: acesso negado, sql, firewall)" aria-label="Filtrar problemas">
+
+    <div class="faq" id="faq">
+      <details class="q"><summary>"O Windows protegeu o computador" ao abrir o Hub</summary>
+        <p>Acontece porque o .exe não é assinado digitalmente. Clique em <strong>Mais informações</strong> → <strong>Executar assim mesmo</strong>. Se o antivírus bloquear, libere o arquivo ou rode a partir da pasta do projeto com <code>python hub.py</code>.</p></details>
+
+      <details class="q"><summary>Restore: "Erro do sistema operacional 5 (Acesso negado)"</summary>
+        <p>O serviço do SQL não conseguiu ler o .bak. A versão atual do Hub já corrige isso sozinha. Numa versão antiga, rode no CMD como administrador e clique no botão 5 de novo:</p>
+        <div class="codigo"><pre><code>icacls "C:\cmsys\Suporte\SQLSERVER2025\NOME_DO_ARQUIVO.bak" /grant "NT SERVICE\MSSQLSERVER:R"</code></pre><button class="copiar" type="button">Copiar</button></div></details>
+
+      <details class="q"><summary>SQL: "Invalid value 'Advanced' for setting 'MediaType'"</summary>
+        <p>Era de uma versão antiga do Hub; a atual baixa a mídia correta. Plano B: copie a pasta da mídia já extraída (a que tem o <code>setup.exe</code>) de outro PC para <code>C:\SQL2025</code> e rode o botão 4 de novo.</p></details>
+
+      <details class="q"><summary>SQL não instala: "reinício pendente"</summary>
+        <p>Reinicie o Windows e rode o botão 4 de novo. Por isso o Windows Update fica por último.</p></details>
+
+      <details class="q"><summary>Botão 4, 5 ou 6: "Não achei a pasta cmsys\Suporte"</summary>
+        <p>Rode antes o botão 3. Ele cria a estrutura em <code>C:\cmsys</code> (ou no disco escolhido) e os outros botões procuram em todos os discos.</p></details>
+
+      <details class="q"><summary>Portal: o Hub não pegou o .bak baixado</summary>
+        <p>O Hub vigia a pasta Downloads do usuário logado e só aceita arquivos baixados depois que a janela abriu. Se o navegador salvou em outro lugar, clique em <strong>Escolher arquivo...</strong> na janela.</p></details>
+
+      <details class="q"><summary>Migração: "Não consegui abrir a origem"</summary>
+        <p>Confira o nome do servidor, se ele está ligado e na mesma rede, e se a pasta é acessível (teste <code>\\SERVIDOR\c$</code> no Explorer). Se pedir login, preencha usuário e senha na janela (ex.: <code>SERVIDOR\Administrador</code>).</p></details>
+
+      <details class="q"><summary>Onde ficam os logs?</summary>
+        <p>Em <code>C:\ProgramData\CMSYS_Preparacao</code>. O botão <strong>Abrir pasta de logs</strong> do Hub leva direto até lá. Mande esses arquivos para o suporte se precisar de ajuda.</p></details>
+
+      <p class="vazio" id="faq-vazio" hidden>Nenhum problema com esse termo. Tente outra palavra.</p>
+    </div>
+  </div>
+</section>
+
+<!-- ============================ NOVIDADES =========================== -->
+<section class="secao secao-alt" id="novidades">
+  <div class="secao-in secao-estreita">
+    <p class="sobre">Versão <span class="js-versao">1.0</span></p>
+    <h2>Novidades</h2>
+    <ul class="novidades" id="novidades-lista"></ul>
+    <a class="btn js-download" href="#">Baixar a versão atual</a>
+  </div>
+</section>
+
+</main>
+
+<footer class="rodape">
+  <div class="rodape-in">
+    <span>Hub CMSYS · ferramenta interna de suporte</span>
+    <span>Dúvidas? Fale com o suporte.</span>
+  </div>
+</footer>
+
+<script src="assets/app.js"></script>
+</body>
+</html>

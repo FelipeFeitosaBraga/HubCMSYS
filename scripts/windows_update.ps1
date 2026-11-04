@@ -1,5 +1,5 @@
 # ==========================================================================
-#  WINDOWS UPDATE  (chamado pelo 4_windows_update.bat)
+#  WINDOWS UPDATE  (chamado pelo 7_windows_update.bat)
 # --------------------------------------------------------------------------
 #  O que faz : procura, baixa e instala as atualizacoes do Windows usando a
 #              API oficial do Windows Update (objetos COM), sem precisar de

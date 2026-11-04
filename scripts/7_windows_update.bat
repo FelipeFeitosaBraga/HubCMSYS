@@ -1,6 +1,6 @@
 @echo off
 rem ======================================================================
-rem  BOTAO 4 - WINDOWS UPDATE
+rem  BOTAO 7 - WINDOWS UPDATE
 rem ----------------------------------------------------------------------
 rem  O que faz : chama o windows_update.ps1 (na mesma pasta), que procura,
 rem              baixa e instala as atualizacoes do Windows.
@@ -9,7 +9,7 @@ rem  padrao do Windows para "reinicio necessario") e aqui perguntamos se
 rem  o tecnico quer reiniciar agora.
 rem  Parametro : /auto  -> nao pede "pressione uma tecla" no final.
 rem ======================================================================
-title Preparar PC CMSYS - 4) Windows Update
+title Preparar PC CMSYS - 7) Windows Update
 set "RC=0"
 
 rem  -File executa o script .ps1. %~dp0 = pasta onde ESTE .bat esta.

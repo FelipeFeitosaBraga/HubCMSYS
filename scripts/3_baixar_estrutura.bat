@@ -176,6 +176,11 @@ if exist "%EXTRAIDO%" rd /s /q "%EXTRAIDO%"
 if not defined ZIP_LOCAL if exist "%ZIP%" del /q "%ZIP%"
 rd "%TEMPDIR%" 2>nul
 
+rem Guarda o disco escolhido para os botoes 4, 5 e 6 acharem a pasta cmsys
+rem mesmo fora do C:. O ">" vem antes do echo para nao gravar espaco extra.
+if not exist "%ProgramData%\CMSYS_Preparacao" mkdir "%ProgramData%\CMSYS_Preparacao"
+>"%ProgramData%\CMSYS_Preparacao\disco_cmsys.txt" echo %DISCO%
+
 echo.
 echo [OK] Estrutura do CMSYS pronta em %DESTINO%.
 goto :fim

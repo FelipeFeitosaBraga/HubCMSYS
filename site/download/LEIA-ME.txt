@@ -1,0 +1,2 @@
+Coloque aqui o HubCMSYS.exe gerado pelo build.bat (pasta dist do projeto HubCMSYS).
+O nome precisa ser exatamente: HubCMSYS.exe

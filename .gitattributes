@@ -1,0 +1,5 @@
+# Scripts do Windows sempre com CRLF (o CMD se perde com LF em goto/labels).
+*.bat text eol=crlf
+*.ps1 text eol=crlf
+*.ini text eol=crlf
+*.exe binary

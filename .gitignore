@@ -7,3 +7,6 @@ build/
 dist/
 *.spec
 __pycache__/
+
+# Site: o .exe em site/download/ DEVE ir para o repositorio (o Vercel serve ele).
+!site/download/HubCMSYS.exe
