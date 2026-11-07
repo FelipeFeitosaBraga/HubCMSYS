@@ -1,13 +1,17 @@
 # Site do Hub CMSYS
 
-Site estatico (HTML + CSS + JS, sem build) com o download do `HubCMSYS.exe` e o guia passo a passo.
+Site estatico (HTML + CSS + JS, sem build) com duas abas, na mesma pagina:
+- **Preparar PC**: download do `HubCMSYS.exe` e o guia (cliente novo / troca de servidor);
+- **Atualizar Servidor**: download do `AtualizarCMSYS.exe` e o guia da atualizacao do cliente.
+
+A aba troca com uma transicao horizontal. Link direto para a aba: `https://hubcmsys-site.vercel.app/#atualizar`.
 
 ```
 index.html          a pagina
-assets/config.js    VERSAO, data, link do download e novidades  <- mexa aqui a cada versao
+assets/config.js    VERSAO, data, links dos downloads e novidades  <- mexa aqui a cada versao
 assets/style.css    visual (claro/escuro)
 assets/app.js       download, tema, checklist, copiar, filtro do FAQ
-download/           coloque aqui o HubCMSYS.exe
+download/           HubCMSYS.exe e AtualizarCMSYS.exe
 vercel.json         forca o download do .exe e evita cache do config.js
 ```
 
@@ -33,3 +37,13 @@ pelo link da Release e deixe a pasta `download` vazia.
 O site e publico para quem tiver o link (nao aparece no Google por causa do `noindex`).
 O .exe leva dentro a senha do `sa` e a regra da senha do portal. Para restringir:
 Vercel > Project > Settings > **Deployment Protection** (protecao por senha exige plano Pro).
+
+## Aba Atualizar Servidor
+- O conteudo fica em `index.html`, dentro de `<div class="vista" id="vista-atualizar">` (secoes com id `at-...`).
+- Nova versao do AtualizarCMSYS: troque `download/AtualizarCMSYS.exe` e atualize `ATUALIZAR.VERSAO`
+  e `ATUALIZAR.DATA_VERSAO` no `config.js`.
+- O `AtualizarCMSYS.exe` do site vai **sem token** (este repositorio e publico). Ele ja sabe o
+  repositorio (`FelipeFeitosaBraga/UpdateCmsys`, ref `main`) e pede o token ao abrir.
+  Para gerar: na pasta `ferramentas\AtualizarCMSYS` do UpdateCmsys, deixe um `AtualizarCMSYS.cfg`
+  so com `repositorio=` e `ref=` (sem a linha `token=`) e rode o `compilar.bat`.
+  NUNCA publique aqui um .exe com o token embutido.

@@ -23,22 +23,40 @@
       </span>
       <span>Hub <strong>CMSYS</strong></span>
     </a>
-    <nav class="topo-nav" aria-label="Seções">
+    <div class="abas" role="tablist" aria-label="Escolha o guia">
+      <span class="aba-fundo" aria-hidden="true"></span>
+      <button class="aba" type="button" role="tab" id="aba-preparar" data-ir="preparar" aria-controls="vista-preparar" aria-selected="true">Preparar PC</button>
+      <button class="aba" type="button" role="tab" id="aba-atualizar" data-ir="atualizar" aria-controls="vista-atualizar" aria-selected="false">Atualizar Servidor</button>
+    </div>
+    <nav class="topo-nav" data-nav="preparar" aria-label="Seções do Preparar PC">
       <a href="#caminhos">Caminhos</a>
       <a href="#etapas">Etapas</a>
       <a href="#migracao">Migração</a>
       <a href="#problemas">Problemas</a>
     </nav>
+    <nav class="topo-nav" data-nav="atualizar" aria-label="Seções do Atualizar Servidor" hidden>
+      <a href="#at-como">Como funciona</a>
+      <a href="#at-composicao">Composição</a>
+      <a href="#at-publicar">Publicar</a>
+      <a href="#at-problemas">Problemas</a>
+    </nav>
     <div class="topo-acoes">
       <button class="tema" id="tema" type="button" aria-label="Alternar tema claro/escuro">
         <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 3a9 9 0 1 0 9 9 7 7 0 0 1-9-9z"/></svg>
       </button>
-      <a class="btn btn-pequeno js-download" href="#">Baixar</a>
+      <a class="btn btn-pequeno js-download so-preparar" href="#">Baixar</a>
+      <a class="btn btn-pequeno js-download-at so-atualizar" href="#">Baixar</a>
     </div>
   </div>
 </header>
 
-<main>
+<main class="vistas">
+<div class="trilho">
+
+  <!-- =================================================================
+       VISTA 1: PREPARAR PC (cliente novo / troca de servidor)
+       ================================================================= -->
+  <div class="vista" id="vista-preparar" data-vista="preparar" aria-label="Preparar PC">
 
 <!-- ============================== HERO ============================== -->
 <section class="hero" id="inicio">
@@ -143,13 +161,13 @@
     <h2>O que cada botão faz</h2>
     <p class="intro">Marque as etapas conforme for concluindo. O progresso fica salvo neste navegador.</p>
 
-    <div class="progresso" aria-live="polite">
-      <div class="progresso-barra"><span id="barra"></span></div>
-      <span id="progresso-txt">0 de 8 etapas</span>
-      <button class="link" id="zerar" type="button">Zerar</button>
+    <div class="progresso" aria-live="polite" data-chave="hub-etapas">
+      <div class="progresso-barra"><span class="js-barra"></span></div>
+      <span class="js-progresso-txt">0 de 8 etapas</span>
+      <button class="link js-zerar" type="button">Zerar</button>
     </div>
 
-    <div class="etapas" id="lista-etapas">
+    <div class="etapas" id="lista-etapas" data-chave="hub-etapas">
 
       <details class="etapa" data-id="1">
         <summary>
@@ -339,7 +357,7 @@
   <div class="secao-in">
     <p class="sobre">Deu erro?</p>
     <h2>Problemas comuns</h2>
-    <input class="busca" id="busca" type="search" placeholder="Filtrar problemas (ex.: acesso negado, sql, firewall)" aria-label="Filtrar problemas">
+    <input class="busca" id="busca" type="search" data-faq="faq" placeholder="Filtrar problemas (ex.: acesso negado, sql, firewall)" aria-label="Filtrar problemas">
 
     <div class="faq" id="faq">
       <details class="q"><summary>"O Windows protegeu o computador" ao abrir o Hub</summary>
@@ -367,7 +385,7 @@
       <details class="q"><summary>Onde ficam os logs?</summary>
         <p>Em <code>C:\ProgramData\CMSYS_Preparacao</code>. O botão <strong>Abrir pasta de logs</strong> do Hub leva direto até lá. Mande esses arquivos para o suporte se precisar de ajuda.</p></details>
 
-      <p class="vazio" id="faq-vazio" hidden>Nenhum problema com esse termo. Tente outra palavra.</p>
+      <p class="vazio" hidden>Nenhum problema com esse termo. Tente outra palavra.</p>
     </div>
   </div>
 </section>
@@ -382,6 +400,384 @@
   </div>
 </section>
 
+  </div><!-- /vista-preparar -->
+
+  <!-- =================================================================
+       VISTA 2: ATUALIZAR SERVIDOR
+       ================================================================= -->
+  <div class="vista" id="vista-atualizar" data-vista="atualizar" aria-label="Atualizar servidor">
+
+<!-- ============================== HERO ============================== -->
+<section class="hero hero-at" id="at-inicio">
+  <div class="hero-in">
+    <div class="hero-texto">
+      <p class="selo"><span class="ponto"></span> Atualizar CMSYS <span class="js-at-versao">1.0</span> · <span class="js-at-data"></span></p>
+      <h1>Atualize o servidor do cliente<br><span class="destaque">sem passo manual.</span></h1>
+      <p class="lead">O Atualizar CMSYS faz o backup no padrão, compara cada arquivo com o repositório <strong>UpdateCmsys</strong>, troca só o que tem versão nova e guia o AzureWorker até o cliente ser liberado.</p>
+      <div class="hero-acoes">
+        <a class="btn btn-grande js-download-at" href="#">
+          <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 3v12m0 0-5-5m5 5 5-5M4 19h16"/></svg>
+          Baixar AtualizarCMSYS.exe
+        </a>
+        <a class="btn btn-fantasma" href="#at-como">Como funciona</a>
+      </div>
+      <p class="nota">Roda no servidor do cliente · como administrador · precisa de internet (api.github.com)</p>
+    </div>
+
+    <div class="hero-janela" aria-hidden="true">
+      <div class="janela janela-at">
+        <div class="janela-barra"><span></span><span></span><span></span><em>Atualizar CMSYS</em></div>
+        <div class="aw-topo"><b>Atualizar CMSYS</b><span>Backup, comparação com o repositório e atualização</span></div>
+        <div class="aw-info">
+          <span>Pasta cmsys</span><b>C:\cmsys</b>
+          <span>CMSYS instalado</span><b>3.0.350</b>
+          <span>Repositório</span><b>3.0.357</b>
+        </div>
+        <div class="aw-botoes"><span>Verificar</span><span class="pri">Atualizar servidor</span><span>Restaurar</span></div>
+        <div class="aw-log">
+          <p class="c">BACKUP (06-11-2026)</p>
+          <p>Aplicativo: 214 arquivo(s) → Versões Anteriores</p>
+          <p class="v">Backup conferido.</p>
+          <p class="b">+ Aplicativo\CMSYS.exe   3.0.350 → 3.0.357</p>
+          <p class="a">= Aplicativo\Boleto.dll  mantido: mesma versão</p>
+          <p class="v">CLIENTE LIBERADO</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============================ ANTES ============================== -->
+<section class="secao" id="at-antes">
+  <div class="secao-in">
+    <p class="sobre">Antes de tudo</p>
+    <h2>Primeiros passos</h2>
+    <div class="grade-3">
+      <article class="cartao">
+        <span class="num">1</span>
+        <h3>Combine o horário</h3>
+        <p>Todos precisam <strong>fechar o CMSYS</strong> nas estações. Arquivo aberto não pode ser trocado; o programa mostra quem ainda está usando.</p>
+      </article>
+      <article class="cartao">
+        <span class="num">2</span>
+        <h3>Leve o programa</h3>
+        <p>Pelo TeamViewer, copie o <code>AtualizarCMSYS.exe</code> para o servidor (ex.: <code>C:\cmsys\Suporte\Atualizador</code>) e abra com dois cliques. Ele pede administrador sozinho.</p>
+      </article>
+      <article class="cartao">
+        <span class="num">3</span>
+        <h3>Comece por Verificar</h3>
+        <p>O botão <strong>Verificar</strong> mostra tudo o que seria trocado e <strong>não altera nada</strong>. Conferiu? Aí sim, <strong>Atualizar servidor</strong>.</p>
+      </article>
+    </div>
+    <div class="aviso">
+      <strong>Tenha em mãos:</strong> o token do GitHub (somente leitura) para colar quando o programa pedir, acesso ao servidor pelo TeamViewer e a certeza de qual filial está sendo atualizada (o <code>CMSYS.ini</code> precisa ser dela).
+    </div>
+  </div>
+</section>
+
+<!-- ========================== COMO FUNCIONA ========================= -->
+<section class="secao secao-alt" id="at-como">
+  <div class="secao-in">
+    <p class="sobre">Passo a passo</p>
+    <h2>Como funciona a atualização</h2>
+    <p class="intro">Marque as etapas conforme for concluindo. O progresso fica salvo neste navegador.</p>
+
+    <div class="progresso" aria-live="polite" data-chave="hub-at-etapas">
+      <div class="progresso-barra"><span class="js-barra"></span></div>
+      <span class="js-progresso-txt">0 de 7 etapas</span>
+      <button class="link js-zerar" type="button">Zerar</button>
+    </div>
+
+    <div class="etapas" data-chave="hub-at-etapas">
+
+      <details class="etapa" data-id="1">
+        <summary>
+          <label class="check" onclick="event.stopPropagation()"><input type="checkbox"><span></span></label>
+          <span class="etapa-num">1</span>
+          <span class="etapa-tit">Verificar <small>não altera nada</small></span>
+          <span class="seta" aria-hidden="true"></span>
+        </summary>
+        <div class="etapa-corpo">
+          <p>Lê a versão nova no repositório e compara arquivo por arquivo com o servidor. O painel mostra:</p>
+          <ul class="legenda">
+            <li><code>+</code> arquivo que será atualizado (versão antiga → nova, ou "novo")</li>
+            <li><code>=</code> arquivo mantido (mesma versão, ou o cliente já tem uma mais nova)</li>
+            <li><code>#</code> arquivo protegido (configuração, nunca trocado)</li>
+            <li>a situação dos <b>Schemas</b> e do <b>CMSYS Relatórios</b></li>
+          </ul>
+          <p class="confira"><b>Confira:</b> o topo da janela mostra a pasta cmsys, a versão instalada e a versão do repositório.</p>
+        </div>
+      </details>
+
+      <details class="etapa" data-id="2">
+        <summary>
+          <label class="check" onclick="event.stopPropagation()"><input type="checkbox"><span></span></label>
+          <span class="etapa-num">2</span>
+          <span class="etapa-tit">Atualizar servidor e fechar o Integrador <small>segundos</small></span>
+          <span class="seta" aria-hidden="true"></span>
+        </summary>
+        <div class="etapa-corpo">
+          <p>Clique em <strong>Atualizar servidor</strong> e confirme. Se o <code>Integrador.exe</code> estiver aberto, o programa pede para fechar: clique em <strong>Sim</strong>. Ele é reaberto no final.</p>
+        </div>
+      </details>
+
+      <details class="etapa" data-id="3">
+        <summary>
+          <label class="check" onclick="event.stopPropagation()"><input type="checkbox"><span></span></label>
+          <span class="etapa-num">3</span>
+          <span class="etapa-tit">Arquivos em uso <small>só se alguém estiver no CMSYS</small></span>
+          <span class="seta" aria-hidden="true"></span>
+        </summary>
+        <div class="etapa-corpo">
+          <p>O painel mostra <strong>qual computador e qual usuário</strong> estão com o CMSYS aberto.</p>
+          <div class="fluxo">
+            <div class="fluxo-col">
+              <h4>Tentar de novo</h4>
+              <ol><li>Peça para fecharem o CMSYS.</li><li>Clique em <strong>Tentar de novo</strong>.</li></ol>
+            </div>
+            <div class="fluxo-col">
+              <h4>Derrubar conexões</h4>
+              <ol><li>Só com autorização do cliente.</li><li>Quem estiver com tela aberta perde o que não salvou.</li></ol>
+            </div>
+          </div>
+        </div>
+      </details>
+
+      <details class="etapa" data-id="4">
+        <summary>
+          <label class="check" onclick="event.stopPropagation()"><input type="checkbox"><span></span></label>
+          <span class="etapa-num">4</span>
+          <span class="etapa-tit">Backup e cópia <small>1–3 min</small></span>
+          <span class="seta" aria-hidden="true"></span>
+        </summary>
+        <div class="etapa-corpo">
+          <p>Cria <code>Versões Anteriores\dd-MM-aaaa\</code> <strong>dentro de cada pasta</strong> que vai mudar, confere o backup arquivo por arquivo e só então copia o que é novo.</p>
+          <p>Cada arquivo baixado é conferido pela impressão digital (SHA) do GitHub antes de ir para o servidor.</p>
+          <p class="confira"><b>Segurança:</b> se algo falhar no meio da cópia, o programa desfaz sozinho e o servidor volta ao estado anterior.</p>
+        </div>
+      </details>
+
+      <details class="etapa etapa-alt" data-id="5">
+        <summary>
+          <label class="check" onclick="event.stopPropagation()"><input type="checkbox"><span></span></label>
+          <span class="etapa-num">5</span>
+          <span class="etapa-tit">CMSYS Relatórios <small>só se o CMSYS era anterior à 295</small></span>
+          <span class="seta" aria-hidden="true"></span>
+        </summary>
+        <div class="etapa-corpo">
+          <p>Automático, só para quem estava abaixo da 295:</p>
+          <ol class="lista-num">
+            <li>Acha a pasta do Relatórios do cliente: <code>Setup CMSYS 2010 - depois de 295</code> ou <code>Setup CMSYS 2010</code>.</li>
+            <li>Move o <code>cmsysRelatoriosSetup.msi</code> antigo para o <code>Versões Anteriores</code> da pasta dele.</li>
+            <li>Desinstala o CMSYS Relatórios antigo e instala o novo, em silêncio.</li>
+          </ol>
+          <p class="dica">Depois, rode o <strong>InstalarCMSYS.exe</strong> em cada estação para trocar o Relatórios nelas também.</p>
+        </div>
+      </details>
+
+      <details class="etapa" data-id="6">
+        <summary>
+          <label class="check" onclick="event.stopPropagation()"><input type="checkbox"><span></span></label>
+          <span class="etapa-num">6</span>
+          <span class="etapa-tit">AzureWorker <small>2–10 min</small></span>
+          <span class="seta" aria-hidden="true"></span>
+        </summary>
+        <div class="etapa-corpo">
+          <p>O programa mostra as linhas de Empresa e Filial do <code>CMSYS.ini</code>, confirma a versão (ex.: <code>3.0.357</code>) e <strong>já deixa ela copiada</strong>. Ao abrir o AzureWorker:</p>
+          <ol class="lista-num">
+            <li>Clique em <strong>Abrir</strong> e selecione o <code>CMSYS.ini</code> indicado (ex.: <code>C:\cmsys\CMSYS.ini</code>).</li>
+            <li>Confira <strong>Empresa</strong> e <strong>Filial</strong>.</li>
+            <li>No campo <strong>Versão Sistema</strong>, cole com <strong>Ctrl+V</strong>.</li>
+            <li>Clique em <strong>Executa Procedures</strong> e espere terminar.</li>
+            <li>Clique em <strong>OK</strong> e <strong>feche</strong> o AzureWorker.</li>
+          </ol>
+          <p class="aviso aviso-peq">O <code>CMSYS.ini</code> <strong>tem</strong> que ser o da filial que está sendo atualizada. As procedures rodam no banco que ele aponta.</p>
+        </div>
+      </details>
+
+      <details class="etapa" data-id="7">
+        <summary>
+          <label class="check" onclick="event.stopPropagation()"><input type="checkbox"><span></span></label>
+          <span class="etapa-num">7</span>
+          <span class="etapa-tit">Integrador e cliente liberado <small>segundos</small></span>
+          <span class="seta" aria-hidden="true"></span>
+        </summary>
+        <div class="etapa-corpo">
+          <p>Ao fechar o AzureWorker, o programa pergunta se as procedures rodaram sem erro.</p>
+          <ul>
+            <li><b>Sim</b> → reabre o Integrador e mostra <em>CLIENTE LIBERADO</em>.</li>
+            <li><b>Não</b> → <strong>não</strong> reabre o Integrador e mostra onde está o backup. Resolva o erro ou use <strong>Restaurar backup</strong>.</li>
+          </ul>
+          <p class="dica">No fim, apague o <code>AtualizarCMSYS.exe</code> do servidor do cliente.</p>
+        </div>
+      </details>
+
+    </div>
+
+    <div class="tudo">
+      <div>
+        <h3>Ordem de sempre</h3>
+        <p>Verificar, atualizar, AzureWorker e Integrador. O botão <strong>AzureWorker + Integrador</strong> faz só as duas últimas, se precisar repetir.</p>
+      </div>
+      <span class="pilula">Verificar → Atualizar → AzureWorker → Integrador</span>
+    </div>
+  </div>
+</section>
+
+<!-- =========================== COMPOSICAO =========================== -->
+<section class="secao" id="at-composicao">
+  <div class="secao-in">
+    <p class="sobre">Por dentro</p>
+    <h2>Do que é composto</h2>
+    <div class="grade-3">
+      <article class="cartao">
+        <span class="num num-at">GH</span>
+        <h3>Repositório UpdateCmsys</h3>
+        <p>GitHub privado com a versão atual de cada arquivo. A pasta <code>cmsys/</code> dele é um <strong>espelho</strong> do <code>C:\cmsys</code> do cliente.</p>
+      </article>
+      <article class="cartao">
+        <span class="num num-at">EXE</span>
+        <h3>AtualizarCMSYS.exe</h3>
+        <p>Roda no servidor do cliente: backup, comparação, atualização, AzureWorker e Integrador. Lê o repositório com um token <strong>somente leitura</strong>.</p>
+      </article>
+      <article class="cartao">
+        <span class="num num-at">EST</span>
+        <h3>InstalarCMSYS.exe</h3>
+        <p>Roda em cada estação. Depois de uma troca do CMSYS Relatórios, instala o novo nas estações (a mesma etapa 6 do Preparar PC).</p>
+      </article>
+    </div>
+
+    <div class="grade-2 at-grade">
+      <div>
+        <h3 class="h3-peq">Estrutura do repositório</h3>
+        <div class="codigo"><pre><code>UpdateCmsys/
+├─ versao.txt            1ª linha = versão do CMSYS.exe
+├─ nao_substituir.txt    nunca troca (*.ini, *.config...)
+├─ cmsys/                espelho do C:\cmsys
+│  ├─ Aplicativo/        CMSYS.exe, DLLs, OCXs
+│  ├─ Integrador/        Integrador.exe e DLLs
+│  ├─ NFe/Schemas/       troca só se for diferente
+│  └─ Suporte/Setup CMSYS 2010 - depois de 295/
+│     └─ cmsysRelatoriosSetup.msi
+└─ ferramentas/          código dos programas
+                         (não vai para o cliente)</code></pre></div>
+      </div>
+      <div>
+        <h3 class="h3-peq">Onde ficam os backups</h3>
+        <ul class="pastas">
+          <li><span class="ic ic-at">APP</span><div><b>Aplicativo</b><code>Aplicativo\Versões Anteriores\dd-MM-aaaa</code>só os arquivos da pasta, sem subpastas</div></li>
+          <li><span class="ic ic-at">INT</span><div><b>Integrador</b><code>Integrador\Versões Anteriores\dd-MM-aaaa</code>só os arquivos da pasta, sem subpastas</div></li>
+          <li><span class="ic ic-at">XSD</span><div><b>Schemas</b><code>NFe\Schemas\Versões Anteriores\dd-MM-aaaa</code>pasta inteira, só se os Schemas mudarem</div></li>
+          <li><span class="ic ic-at">MSI</span><div><b>Relatórios</b><code>Setup CMSYS 2010\Versões Anteriores\dd-MM-aaaa</code>o .msi antigo, só se era anterior à 295</div></li>
+        </ul>
+      </div>
+    </div>
+
+    <h3 class="h3-peq at-regras-tit">Regras que o programa aplica sozinho</h3>
+    <div class="grade-3 regras at-regras">
+      <div class="regra"><b>Versão igual: mantém</b><span>Só troca por versão maior. O cliente com versão mais nova também fica como está.</span></div>
+      <div class="regra"><b>Só baixa o que mudou</b><span>Arquivo idêntico ao do repositório nem é baixado.</span></div>
+      <div class="regra"><b>Nunca apaga nada</b><span>Arquivos que saíram do repositório continuam no cliente.</span></div>
+      <div class="regra"><b>Configuração protegida</b><span><code>*.ini</code>, <code>*.config</code>, <code>*.cfg</code>… nunca são tocados (<code>nao_substituir.txt</code>).</span></div>
+      <div class="regra"><b>Schemas exatos</b><span>Iguais ao pacote: não mexe. Diferentes: backup da pasta e troca.</span></div>
+      <div class="regra"><b>Relatórios só abaixo da 295</b><span>A versão é lida do CMSYS.exe antes da atualização.</span></div>
+    </div>
+  </div>
+</section>
+
+<!-- ============================ PUBLICAR ============================ -->
+<section class="secao secao-alt" id="at-publicar">
+  <div class="secao-in">
+    <p class="sobre">Manutenção mensal</p>
+    <h2>Publicar uma versão nova</h2>
+    <p class="intro">Saiu um CMSYS.exe, uma DLL ou um Integrador novo? Leva uns 5 minutos. Assim que o push termina, todo servidor atualizado depois já recebe a versão nova.</p>
+
+    <div class="grade-2">
+      <div>
+        <ol class="passos">
+          <li><b>Fetch origin</b><span>No GitHub Desktop, pegue o que algum colega publicou (e <em>Pull origin</em>, se aparecer).</span></li>
+          <li><b>Copie só os arquivos novos</b><span>Por cima dos antigos, na pasta certa dentro de <code>cmsys\</code> (tabela ao lado).</span></li>
+          <li><b>Edite o versao.txt</b><span>1ª linha = versão nova do CMSYS.exe (ex.: <code>3.0.358</code>).</span></li>
+          <li><b>Commit to main</b><span>Resumo com a versão e os arquivos: <code>3.0.358 - CMSYS.exe, cmsysNotaFiscal.dll</code>.</span></li>
+          <li><b>Push origin</b><span>Pronto: já está valendo para os próximos clientes.</span></li>
+          <li><b>Tag (recomendado)</b><span><em>History</em> → botão direito no commit → <em>Create Tag</em> → <code>v3.0.358</code> → <em>Push</em>.</span></li>
+        </ol>
+      </div>
+      <div>
+        <dl class="campos campos-at">
+          <dt>CMSYS.exe, DLLs, OCXs</dt><dd><code>cmsys\Aplicativo\</code></dd>
+          <dt>Integrador</dt><dd><code>cmsys\Integrador\</code></dd>
+          <dt>Schemas da SEFAZ</dt><dd><code>cmsys\NFe\Schemas\</code> (mesmas subpastas)</dd>
+          <dt>Relatórios (.msi)</dt><dd><code>cmsys\Suporte\Setup CMSYS 2010 - depois de 295\</code></dd>
+          <dt>Outra pasta</dt><dd><code>cmsys\&lt;mesmo nome da pasta do cliente&gt;\</code></dd>
+        </dl>
+        <p class="aviso aviso-peq"><strong>Nunca coloque no repositório:</strong> CMSYS.ini, .config de cliente, dados, XML de notas ou o <code>AtualizarCMSYS.cfg</code> com o token. Nenhum arquivo pode passar de 100 MB.</p>
+        <p class="dica">Arquivo corrigido <strong>sem aumentar a versão</strong> aparece como "mantido: mesma versão" e não é trocado. Peça sempre a versão incrementada.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============================ PROBLEMAS =========================== -->
+<section class="secao" id="at-problemas">
+  <div class="secao-in">
+    <p class="sobre">Deu erro?</p>
+    <h2>Problemas comuns</h2>
+
+    <div class="restaurar">
+      <div>
+        <h3>Precisa voltar a versão anterior?</h3>
+        <p>Botão <strong>Restaurar backup</strong> → escolha a data → confirme. Antes de restaurar, ele guarda o estado atual em <code>..._antes-de-restaurar</code>. O CMSYS Relatórios e as procedures do banco <strong>não</strong> voltam sozinhos.</p>
+      </div>
+    </div>
+
+    <input class="busca" type="search" data-faq="faq-at" placeholder="Filtrar problemas (ex.: token, em uso, 404, relatórios)" aria-label="Filtrar problemas da atualização">
+
+    <div class="faq" id="faq-at">
+      <details class="q"><summary>Token do GitHub inválido ou vencido (401)</summary>
+        <p>O token foi apagado, venceu ou foi colado errado. Gere um novo no GitHub (<em>Settings → Developer settings → Fine-grained tokens</em>, <strong>Contents: Read-only</strong> só no UpdateCmsys) e cole quando o programa pedir.</p></details>
+
+      <details class="q"><summary>Repositório ou versão não encontrado (404)</summary>
+        <p>Nome do repositório errado, tag que não existe (ex.: <code>v3.0.358</code> sem ter criado a tag) ou token sem acesso ao UpdateCmsys. Confira em <em>Repository access → Only select repositories</em>.</p></details>
+
+      <details class="q"><summary>GitHub recusou o acesso (403)</summary>
+        <p>Token sem a permissão <strong>Contents: Read-only</strong>, ou pendente de aprovação na organização. Ajuste a permissão ou aprove o token.</p></details>
+
+      <details class="q"><summary>Sem conexão com o GitHub</summary>
+        <p>O servidor está sem internet ou o firewall/proxy bloqueia. Libere <code>api.github.com</code> na porta 443 e teste abrindo o site no navegador do servidor.</p></details>
+
+      <details class="q"><summary>Arquivos em uso: não deixa atualizar</summary>
+        <p>Alguém está com o CMSYS aberto numa estação ou no próprio servidor. O painel lista computador e usuário. Peça para fecharem e clique em <strong>Tentar de novo</strong>. <strong>Derrubar conexões</strong> só com autorização.</p></details>
+
+      <details class="q"><summary>Um arquivo novo não foi trocado ("mantido: mesma versão")</summary>
+        <p>O arquivo do repositório tem a mesma versão do que está no cliente. O programa nunca troca por versão igual. Publique o arquivo com a versão incrementada.</p></details>
+
+      <details class="q"><summary>"Backup incompleto" ou "Arquivo baixado corrompido"</summary>
+        <p>Disco cheio, sem permissão ou internet instável. <strong>Nada foi alterado</strong>: libere espaço ou espere a internet estabilizar e rode de novo.</p></details>
+
+      <details class="q"><summary>Instalação do CMSYS Relatórios terminou com código de erro</summary>
+        <p>Abra o <code>msi_relatorios.log</code> no <code>Versões Anteriores</code> da pasta do Relatórios e procure por <code>Return value 3</code>. As linhas logo acima mostram a causa.</p></details>
+
+      <details class="q"><summary>As procedures deram erro no AzureWorker</summary>
+        <p>Responda <strong>Não</strong> na pergunta final: o Integrador continua fechado. Confira se o <code>CMSYS.ini</code> é da filial certa e se a Versão Sistema está correta. Se precisar, use <strong>Restaurar backup</strong> para voltar os arquivos.</p></details>
+
+      <details class="q"><summary>"Não achei a pasta cmsys"</summary>
+        <p>A pasta não está na raiz de um disco. Clique em <strong>Trocar...</strong> no topo da janela e escolha a pasta cmsys (a que tem a pasta Aplicativo).</p></details>
+
+      <details class="q"><summary>"O Windows protegeu o computador" ao abrir</summary>
+        <p>O .exe não é assinado digitalmente. Clique em <strong>Mais informações</strong> → <strong>Executar assim mesmo</strong>.</p></details>
+
+      <details class="q"><summary>Onde ficam os logs?</summary>
+        <p>Botão <strong>Abrir log</strong> na janela. O arquivo fica em <code>C:\ProgramData\CMSYS_Preparacao\atualizar_cmsys_&lt;data_hora&gt;.log</code> e, quando há atualização, uma cópia vai para cada pasta de backup (<code>atualizacao.log</code> e <code>LEIA-ME.txt</code>).</p></details>
+
+      <p class="vazio" hidden>Nenhum problema com esse termo. Tente outra palavra.</p>
+    </div>
+  </div>
+</section>
+
+  </div><!-- /vista-atualizar -->
+
+</div><!-- /trilho -->
 </main>
 
 <footer class="rodape">

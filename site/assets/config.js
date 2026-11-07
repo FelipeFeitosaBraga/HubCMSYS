@@ -11,7 +11,14 @@ window.HUB_CONFIG = {
   VERSAO: "1.0",
   DATA_VERSAO: "04/11/2026",
   URL_DOWNLOAD: "download/HubCMSYS.exe",
+  // Aba "Atualizar Servidor": o AtualizarCMSYS.exe (sem token; ele pede o token ao abrir).
+  ATUALIZAR: {
+    VERSAO: "1.0",
+    DATA_VERSAO: "06/11/2026",
+    URL_DOWNLOAD: "download/AtualizarCMSYS.exe"
+  },
   NOVIDADES: [
+    "Nova aba Atualizar Servidor: guia e download do AtualizarCMSYS.",
     "Botao 8: migrar XML, notas, fotos e logos do servidor antigo (robocopy).",
     "Botao 5: ajuda a baixar o .bak no portal da Azure e restaura sozinho.",
     "Botao 6: instala ReportViewer, Crystal, Relatorios, Boleto e componentes do CMSYS.",

@@ -287,3 +287,100 @@ h1 { font-size: clamp(2.1rem, 4.6vw, 3.4rem); font-weight: 800; letter-spacing: 
   .hero-acoes .btn { width: 100%; justify-content: center; }
   .pilula { white-space: normal; }
 }
+
+/* ======================= ABAS (Preparar PC / Atualizar Servidor) ======================= */
+[hidden] { display: none !important; }
+.abas {
+  position: relative; flex: none; display: inline-grid; grid-template-columns: 1fr 1fr;
+  padding: 4px; border-radius: 12px; background: var(--bg-alt); border: 1px solid var(--borda);
+}
+.aba {
+  position: relative; z-index: 1; border: 0; background: none; cursor: pointer; white-space: nowrap;
+  font: inherit; font-weight: 700; font-size: .9rem; color: var(--texto-2); padding: 7px 14px; border-radius: 9px;
+  transition: color .3s;
+}
+.aba:hover { color: var(--texto); }
+.aba[aria-selected="true"] { color: var(--sobre-azul); }
+.aba:focus-visible { outline: 2px solid var(--azul); outline-offset: 2px; }
+.aba-fundo {
+  position: absolute; top: 4px; bottom: 4px; left: 4px; width: calc(50% - 4px); border-radius: 9px;
+  background: var(--azul); box-shadow: 0 4px 12px color-mix(in srgb, var(--azul) 35%, transparent);
+  transition: transform .6s cubic-bezier(.65, 0, .35, 1);
+}
+body[data-vista="atualizar"] .aba-fundo { transform: translateX(100%); }
+
+/* As duas paginas lado a lado; a aba desliza o trilho na horizontal. */
+.vistas { overflow-x: hidden; overflow-x: clip; }
+.trilho { display: flex; align-items: flex-start; width: 200%; transition: transform .6s cubic-bezier(.65, 0, .35, 1); }
+.vista { flex: none; width: 50%; min-width: 0; }
+.vista.oculta { height: 0; overflow: hidden; visibility: hidden; }
+body[data-vista="atualizar"] .trilho { transform: translateX(-50%); }
+.sem-animacao .trilho, .sem-animacao .aba-fundo { transition: none !important; }
+@media (prefers-reduced-motion: reduce) { .trilho, .aba-fundo { transition: none; } }
+
+.so-atualizar { display: none; }
+body[data-vista="atualizar"] .so-atualizar { display: inline-flex; }
+body[data-vista="atualizar"] .so-preparar { display: none; }
+
+/* ============================ ATUALIZAR SERVIDOR ============================ */
+.hero-at {
+  background:
+    radial-gradient(900px 400px at 85% 10%, color-mix(in srgb, var(--verde) 14%, transparent), transparent 70%),
+    radial-gradient(600px 300px at 5% 90%, color-mix(in srgb, var(--azul) 12%, transparent), transparent 70%);
+}
+.janela-at { transform: rotate(-1deg); }
+.hero-in > *, .grade-2 > *, .grade-3 > *, .caminhos > * { min-width: 0; }
+.aw-topo { background: #183459; color: #fff; padding: 12px 16px; display: flex; flex-direction: column; gap: 2px; }
+.aw-topo b { font-size: 1rem; }
+.aw-topo span { font-size: .74rem; color: #bed0e6; }
+.aw-info {
+  display: grid; grid-template-columns: auto 1fr; gap: 3px 14px; margin: 12px 14px 0; padding: 10px 12px;
+  background: var(--bg); border: 1px solid var(--borda); border-radius: 9px; font-size: .8rem;
+}
+.aw-info span { color: var(--texto-3); }
+.aw-info b { color: var(--texto); }
+.aw-botoes { display: flex; flex-wrap: wrap; gap: 6px; padding: 10px 14px; }
+.aw-botoes span {
+  font-size: .75rem; font-weight: 700; padding: 6px 10px; border: 1px solid var(--borda); border-radius: 7px;
+  background: var(--sup); color: var(--texto-2);
+}
+.aw-botoes .pri { background: #0067c0; border-color: #0067c0; color: #fff; }
+.aw-log {
+  margin: 0 14px 14px; background: #1e1e1e; border-radius: 9px; padding: 10px 12px;
+  font: .74rem/1.6 "JetBrains Mono", ui-monospace, Consolas, monospace; color: #cdcdcd;
+}
+.aw-log p { margin: 0; white-space: pre; overflow: hidden; text-overflow: ellipsis; }
+.aw-log .c { color: #56b6ff; } .aw-log .v { color: #73c991; } .aw-log .a { color: #d0a560; } .aw-log .b { color: #f2f2f2; }
+
+.num-at { display: inline-grid; width: auto; min-width: 34px; padding: 0 10px; font-size: .76rem; background: var(--verde-suave); color: var(--verde); }
+.ic-at { background: var(--verde-suave); color: var(--verde); }
+.at-grade { margin-top: 36px; }
+.at-regras-tit { margin-top: 40px; }
+.at-regras { margin-top: 0; }
+.etapa-corpo .legenda { list-style: none; padding-left: 0; }
+.legenda code { margin-right: 8px; }
+
+.passos { list-style: none; counter-reset: passo; padding: 0; margin: 8px 0 0; display: grid; gap: 10px; }
+.passos li {
+  counter-increment: passo; position: relative; display: flex; flex-direction: column; gap: 2px;
+  padding: 14px 16px 14px 60px; background: var(--sup); border: 1px solid var(--borda); border-radius: 12px;
+}
+.passos li::before {
+  content: counter(passo); position: absolute; left: 16px; top: 14px; width: 30px; height: 30px; border-radius: 9px;
+  display: grid; place-items: center; background: var(--azul); color: var(--sobre-azul); font-weight: 800; font-size: .9rem;
+}
+.passos span { color: var(--texto-2); font-size: .93rem; }
+.campos-at { grid-template-columns: 170px 1fr; margin-top: 8px; }
+.restaurar {
+  max-width: 860px; margin: 4px 0 26px; padding: 20px 22px; border-radius: var(--raio);
+  background: var(--sup); border: 1px solid var(--borda); border-left: 4px solid var(--verde); box-shadow: var(--sombra);
+}
+.restaurar p { color: var(--texto-2); margin-bottom: 0; }
+
+@media (max-width: 1120px) { .topo-nav { display: none; } }
+@media (max-width: 680px) {
+  .topo-in { flex-wrap: wrap; gap: 10px 12px; }
+  .abas { order: 3; width: 100%; }
+  .topo-acoes .btn-pequeno { display: none !important; }
+  .campos-at { grid-template-columns: 1fr; gap: 2px; }
+}

@@ -1,6 +1,8 @@
-/* Comportamento da pagina: download, tema, checklist, copiar e filtro do FAQ. */
+/* Comportamento da pagina: abas (Preparar PC / Atualizar Servidor), download,
+   tema, checklists, copiar e filtro dos problemas. */
 (function () {
   var cfg = window.HUB_CONFIG || {};
+  var cfgAt = cfg.ATUALIZAR || {};
 
   // localStorage pode falhar (aba anonima, bloqueio): nunca quebra a pagina.
   function ler(chave, padrao) {
@@ -10,16 +12,25 @@
   function gravar(chave, valor) {
     try { localStorage.setItem(chave, JSON.stringify(valor)); } catch (e) { /* ignora */ }
   }
+  function cada(seletor, fn, raiz) {
+    Array.prototype.forEach.call((raiz || document).querySelectorAll(seletor), fn);
+  }
 
-  // ---- Download e versao (vem do config.js) ----
-  document.querySelectorAll(".js-download").forEach(function (a) {
+  // ---- Downloads e versoes (vem do config.js) ----
+  cada(".js-download", function (a) {
     a.href = cfg.URL_DOWNLOAD || "download/HubCMSYS.exe";
     a.setAttribute("download", "HubCMSYS.exe");
   });
-  document.querySelectorAll(".js-versao").forEach(function (el) { el.textContent = cfg.VERSAO || "1.0"; });
-  document.querySelectorAll(".js-data").forEach(function (el) { el.textContent = cfg.DATA_VERSAO || ""; });
+  cada(".js-download-at", function (a) {
+    a.href = cfgAt.URL_DOWNLOAD || "download/AtualizarCMSYS.exe";
+    a.setAttribute("download", "AtualizarCMSYS.exe");
+  });
+  cada(".js-versao", function (el) { el.textContent = cfg.VERSAO || "1.0"; });
+  cada(".js-data", function (el) { el.textContent = cfg.DATA_VERSAO || ""; });
+  cada(".js-at-versao", function (el) { el.textContent = cfgAt.VERSAO || "1.0"; });
+  cada(".js-at-data", function (el) { el.textContent = cfgAt.DATA_VERSAO || ""; });
   var lista = document.getElementById("novidades-lista");
-  (cfg.NOVIDADES || []).forEach(function (t) {
+  if (lista) (cfg.NOVIDADES || []).forEach(function (t) {
     var li = document.createElement("li"); li.textContent = t; lista.appendChild(li);
   });
 
@@ -35,34 +46,131 @@
     gravar("hub-tema", novo);
   });
 
-  // ---- Checklist das etapas ----
-  var feitas = ler("hub-etapas", {});
-  var etapas = Array.prototype.slice.call(document.querySelectorAll(".etapa"));
-  function atualizar() {
-    var n = 0;
-    etapas.forEach(function (e) {
-      var ok = !!feitas[e.dataset.id];
-      e.classList.toggle("feita", ok);
-      e.querySelector("input").checked = ok;
-      if (ok) n++;
-    });
-    document.getElementById("barra").style.width = (n / etapas.length * 100) + "%";
-    document.getElementById("progresso-txt").textContent = n + " de " + etapas.length + " etapas";
+  // ---- Abas com transicao horizontal ----
+  var trilho = document.querySelector(".trilho");
+  var vistas = {};
+  cada(".vista", function (v) { vistas[v.dataset.vista] = v; });
+  var titulos = {
+    preparar: "Hub CMSYS · Guia e download",
+    atualizar: "Hub CMSYS · Atualizar servidor"
+  };
+  var reduzir = matchMedia("(prefers-reduced-motion: reduce)").matches;
+  var atual = null;
+
+  function vistaDoHash(h) {
+    h = (h || "").replace(/^#/, "");
+    return (h === "atualizar" || h.indexOf("at-") === 0) ? "atualizar" : "preparar";
   }
-  etapas.forEach(function (e) {
-    e.querySelector("input").addEventListener("change", function (ev) {
-      feitas[e.dataset.id] = ev.target.checked;
-      gravar("hub-etapas", feitas);
-      atualizar();
+
+  function esconderOutras() {
+    Object.keys(vistas).forEach(function (n) {
+      var outra = n !== atual;
+      vistas[n].classList.toggle("oculta", outra);
+      vistas[n].inert = outra;
+      if (outra) vistas[n].setAttribute("aria-hidden", "true"); else vistas[n].removeAttribute("aria-hidden");
+    });
+  }
+
+  function mostrar(nome, animar) {
+    if (!vistas[nome] || nome === atual) return;
+    var anterior = atual;
+    atual = nome;
+    animar = animar && anterior && !reduzir;
+
+    // Durante a transicao as duas paginas ficam visiveis.
+    vistas[nome].classList.remove("oculta");
+    vistas[nome].inert = false;
+    if (!animar) document.body.classList.add("sem-animacao");
+    if (animar && window.scrollY > 0) window.scrollTo({ top: 0, behavior: "instant" });
+
+    document.body.setAttribute("data-vista", nome);
+    document.title = titulos[nome] || document.title;
+    cada(".aba", function (b) { b.setAttribute("aria-selected", b.dataset.ir === nome ? "true" : "false"); });
+    cada(".topo-nav", function (n) { n.hidden = n.dataset.nav !== nome; });
+
+    if (!animar) {
+      void trilho.offsetWidth;   // aplica sem transicao
+      esconderOutras();
+      requestAnimationFrame(function () { document.body.classList.remove("sem-animacao"); });
+      return;
+    }
+    var feito = false;
+    function fim(e) {
+      if (feito || (e && e.target !== trilho)) return;
+      feito = true;
+      trilho.removeEventListener("transitionend", fim);
+      if (atual === nome) esconderOutras();
+    }
+    trilho.addEventListener("transitionend", fim);
+    setTimeout(fim, 900);
+  }
+
+  function irPara(nome) {
+    if (nome === atual) { window.scrollTo({ top: 0, behavior: "smooth" }); return; }
+    var url = nome === "atualizar" ? "#atualizar" : location.pathname + location.search;
+    try { history.pushState({ vista: nome }, "", url); } catch (e) { /* ignora */ }
+    mostrar(nome, true);
+  }
+
+  cada(".aba", function (b) {
+    b.addEventListener("click", function () { irPara(b.dataset.ir); });
+    b.addEventListener("keydown", function (e) {
+      if (e.key !== "ArrowLeft" && e.key !== "ArrowRight") return;
+      var outra = b.dataset.ir === "preparar" ? "atualizar" : "preparar";
+      irPara(outra);
+      document.getElementById("aba-" + outra).focus();
     });
   });
-  document.getElementById("zerar").addEventListener("click", function () {
-    feitas = {}; gravar("hub-etapas", feitas); atualizar();
+  window.addEventListener("popstate", function () { mostrar(vistaDoHash(location.hash), true); });
+  window.addEventListener("hashchange", function () { mostrar(vistaDoHash(location.hash), true); });
+
+  // A marca leva ao topo da pagina que estiver aberta.
+  var marca = document.querySelector(".marca");
+  if (marca) marca.addEventListener("click", function (e) {
+    e.preventDefault();
+    window.scrollTo({ top: 0, behavior: "smooth" });
   });
-  atualizar();
+
+  // Abre direto na aba certa (ex.: link .../#atualizar ou .../#at-problemas).
+  mostrar(vistaDoHash(location.hash), false);
+  if (location.hash.indexOf("#at-") === 0) {
+    var alvo = document.getElementById(location.hash.slice(1));
+    if (alvo) setTimeout(function () { alvo.scrollIntoView(); }, 0);
+  }
+
+  // ---- Checklists (um por pagina, cada um salvo com a sua chave) ----
+  cada(".etapas[data-chave]", function (grupo) {
+    var chave = grupo.dataset.chave;
+    var painel = document.querySelector('.progresso[data-chave="' + chave + '"]');
+    var feitas = ler(chave, {});
+    var etapas = Array.prototype.slice.call(grupo.querySelectorAll(".etapa"));
+    function atualizar() {
+      var n = 0;
+      etapas.forEach(function (e) {
+        var ok = !!feitas[e.dataset.id];
+        e.classList.toggle("feita", ok);
+        e.querySelector("input").checked = ok;
+        if (ok) n++;
+      });
+      if (!painel) return;
+      painel.querySelector(".js-barra").style.width = (n / etapas.length * 100) + "%";
+      painel.querySelector(".js-progresso-txt").textContent = n + " de " + etapas.length + " etapas";
+    }
+    etapas.forEach(function (e) {
+      e.querySelector("input").addEventListener("change", function (ev) {
+        feitas[e.dataset.id] = ev.target.checked;
+        gravar(chave, feitas);
+        atualizar();
+      });
+    });
+    if (painel) painel.querySelector(".js-zerar").addEventListener("click", function () {
+      feitas = {}; gravar(chave, feitas); atualizar();
+    });
+    atualizar();
+  });
 
   // ---- Botoes Copiar ----
-  document.querySelectorAll(".copiar").forEach(function (b) {
+  cada(".copiar", function (b) {
     b.addEventListener("click", function () {
       var texto = b.parentElement.querySelector("code").innerText;
       var ok = function () { b.textContent = "Copiado!"; setTimeout(function () { b.textContent = "Copiar"; }, 1600); };
@@ -70,18 +178,22 @@
     });
   });
 
-  // ---- Filtro do FAQ ----
-  var busca = document.getElementById("busca");
-  var itens = document.querySelectorAll("#faq .q");
-  busca.addEventListener("input", function () {
-    var termo = busca.value.trim().toLowerCase().normalize("NFD").replace(/[̀-ͯ]/g, "");
-    var visiveis = 0;
-    itens.forEach(function (q) {
-      var txt = q.textContent.toLowerCase().normalize("NFD").replace(/[̀-ͯ]/g, "");
-      var mostra = !termo || txt.indexOf(termo) !== -1;
-      q.hidden = !mostra;
-      if (mostra) visiveis++;
+  // ---- Filtro dos problemas (cada pagina tem o seu) ----
+  function semAcento(t) { return t.toLowerCase().normalize("NFD").replace(/[̀-ͯ]/g, ""); }
+  cada(".busca[data-faq]", function (busca) {
+    var faq = document.getElementById(busca.dataset.faq);
+    if (!faq) return;
+    var itens = faq.querySelectorAll(".q");
+    var vazio = faq.querySelector(".vazio");
+    busca.addEventListener("input", function () {
+      var termo = semAcento(busca.value.trim());
+      var visiveis = 0;
+      Array.prototype.forEach.call(itens, function (q) {
+        var mostra = !termo || semAcento(q.textContent).indexOf(termo) !== -1;
+        q.hidden = !mostra;
+        if (mostra) visiveis++;
+      });
+      if (vazio) vazio.hidden = visiveis > 0;
     });
-    document.getElementById("faq-vazio").hidden = visiveis > 0;
   });
 })();
